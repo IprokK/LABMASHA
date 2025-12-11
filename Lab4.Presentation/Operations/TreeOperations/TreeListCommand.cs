@@ -1,6 +1,5 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.Context;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Outputs.TreeOperations;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Operations.TreeOperations;
 
@@ -13,9 +12,8 @@ public class TreeListCommand : ICommand
         _depth = depth;
     }
 
-    public void Execute(IFileSystemContext context)
+    public CommandResult Execute(IFileSystemContext context)
     {
-        CommandResult result = context.ListDirectory(_depth);
-        result.Accept(new TreeListDrawer());
+        return context.ListDirectory(_depth);
     }
 }
