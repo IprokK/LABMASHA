@@ -1,7 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.Context;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Outputs.TreeOperations;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Operations.TreeOperations;
 
@@ -14,9 +13,8 @@ public class TreeGoToCommand : ICommand
         _path = path;
     }
 
-    public void Execute(IFileSystemContext context)
+    public CommandResult Execute(IFileSystemContext context)
     {
-        CommandResult result = context.ChangeDirectory(_path);
-        result.Accept(new TreeGoToDrawer());
+        return context.ChangeDirectory(_path);
     }
 }

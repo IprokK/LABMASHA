@@ -1,7 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.Context;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Outputs.FileOperations;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Operations.FileOperations;
 
@@ -16,9 +15,8 @@ public class MoveCommand : ICommand
         _destination = destination;
     }
 
-    public void Execute(IFileSystemContext context)
+    public CommandResult Execute(IFileSystemContext context)
     {
-        CommandResult result = context.MoveFile(_source, _destination);
-        result.Accept(new MoveDrawer());
+        return context.MoveFile(_source, _destination);
     }
 }

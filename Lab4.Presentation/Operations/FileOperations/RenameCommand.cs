@@ -1,7 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.Context;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Outputs.FileOperations;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Operations.FileOperations;
 
@@ -16,9 +15,8 @@ public class RenameCommand : ICommand
         _newName = newName;
     }
 
-    public void Execute(IFileSystemContext context)
+    public CommandResult Execute(IFileSystemContext context)
     {
-        CommandResult result = context.RenameFile(_path, _newName);
-        result.Accept(new RenameDrawer());
+        return context.RenameFile(_path, _newName);
     }
 }
