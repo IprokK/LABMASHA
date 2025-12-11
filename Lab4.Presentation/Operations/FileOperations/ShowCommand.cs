@@ -18,7 +18,7 @@ public class ShowCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        ShowResult result = context.ShowFile(_path);
+        CommandResult result = context.ShowFile(_path);
         if (_mode == "console")
         {
             result.Accept(new ShowDrawer());

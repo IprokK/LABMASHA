@@ -18,7 +18,7 @@ public class MoveCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        MoveResult result = context.MoveFile(_source, _destination);
+        CommandResult result = context.MoveFile(_source, _destination);
         result.Accept(new MoveDrawer());
     }
 }

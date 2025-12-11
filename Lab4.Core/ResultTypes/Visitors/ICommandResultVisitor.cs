@@ -2,9 +2,8 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Visitors;
 
-public interface IDeleteResultVisitor
+public interface ICommandResultVisitor
 {
-    void Visit(DeleteResult.Success result);
-
-    void Visit(DeleteResult.Failure result);
+    void Visit(CommandResult.Success result);
+    void Visit(CommandResult.Failure result);
 }

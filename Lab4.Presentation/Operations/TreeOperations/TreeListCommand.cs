@@ -15,7 +15,7 @@ public class TreeListCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        TreeListResult result = context.ListDirectory(_depth);
+        CommandResult result = context.ListDirectory(_depth);
         result.Accept(new TreeListDrawer());
     }
 }

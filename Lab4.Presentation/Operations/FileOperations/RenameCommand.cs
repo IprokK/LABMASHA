@@ -18,7 +18,7 @@ public class RenameCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        RenameResult result = context.RenameFile(_path, _newName);
+        CommandResult result = context.RenameFile(_path, _newName);
         result.Accept(new RenameDrawer());
     }
 }

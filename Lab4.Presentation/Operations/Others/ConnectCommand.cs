@@ -18,7 +18,7 @@ public class ConnectCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        ConnectResult result = context.Connect(_address, _mode);
+        CommandResult result = context.Connect(_address, _mode);
         result.Accept(new ConnectDrawer());
     }
 }

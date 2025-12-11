@@ -1,4 +1,3 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Models.FileSystemModel.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ValueObjects;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.Context;
@@ -9,58 +8,69 @@ public class ConnectState : IAppState
 {
     private readonly IFileSystemContext _context;
 
-    private readonly IFileSystem _fileSystem;
-
-    public ConnectState(IFileSystemContext context, IFileSystem fileSystem)
+    public ConnectState(IFileSystemContext context)
     {
         _context = context;
-        _fileSystem = fileSystem;
     }
 
-    public ConnectResult Connect(FilePath address, string mode)
+    public CommandResult Connect(FilePath address, string mode)
     {
-        return new ConnectResult.Failure();
+        return new CommandResult.Failure("Already connected");
     }
 
-    public DisconnectResult Disconnect()
+    public CommandResult Disconnect()
     {
         _context.SetFileSystem(null);
         _context.TransitionTo(new DisconnectState(_context));
-        return new DisconnectResult.Success();
+        return new CommandResult.Success();
     }
 
-    public TreeListResult ListDirectory(int depth)
+    public CommandResult ListDirectory(int depth)
     {
-        return _fileSystem.ListDirectory(depth);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.ListDirectory(depth);
     }
 
-    public TreeGoToResult ChangeDirectory(FilePath path)
+    public CommandResult ChangeDirectory(FilePath path)
     {
-        return _fileSystem.ChangeDirectory(path);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.ChangeDirectory(path);
     }
 
-    public ShowResult ShowFile(FilePath path)
+    public CommandResult ShowFile(FilePath path)
     {
-        return _fileSystem.ShowFile(path);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.ShowFile(path);
     }
 
-    public MoveResult MoveFile(FilePath source, FilePath destination)
+    public CommandResult MoveFile(FilePath source, FilePath destination)
     {
-        return _fileSystem.MoveFile(source, destination);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.MoveFile(source, destination);
     }
 
-    public CopyResult CopyFile(FilePath source, FilePath destination)
+    public CommandResult CopyFile(FilePath source, FilePath destination)
     {
-        return _fileSystem.CopyFile(source, destination);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.CopyFile(source, destination);
     }
 
-    public DeleteResult DeleteFile(FilePath path)
+    public CommandResult DeleteFile(FilePath path)
     {
-        return _fileSystem.DeleteFile(path);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.DeleteFile(path);
     }
 
-    public RenameResult RenameFile(FilePath path, string newName)
+    public CommandResult RenameFile(FilePath path, string newName)
     {
-        return _fileSystem.RenameFile(path, newName);
+        return _context.FileSystem is null
+            ? new CommandResult.Failure("File system is unavailable")
+            : _context.FileSystem.RenameFile(path, newName);
     }
 }

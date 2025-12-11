@@ -5,17 +5,17 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Models.FileSystemModel.Types;
 
 public interface IFileSystem
 {
-    TreeListResult ListDirectory(int depth);
+    CommandResult ListDirectory(int depth);
 
-    TreeGoToResult ChangeDirectory(FilePath path);
+    CommandResult ChangeDirectory(FilePath path);
 
-    CopyResult CopyFile(FilePath source, FilePath destination);
+    CommandResult CopyFile(FilePath source, FilePath destination);
 
-    DeleteResult DeleteFile(FilePath path);
+    CommandResult DeleteFile(FilePath path);
 
-    MoveResult MoveFile(FilePath source, FilePath destination);
+    CommandResult MoveFile(FilePath source, FilePath destination);
 
-    RenameResult RenameFile(FilePath path, string newName);
+    CommandResult RenameFile(FilePath path, string newName);
 
-    ShowResult ShowFile(FilePath path);
+    CommandResult ShowFile(FilePath path);
 }

@@ -9,68 +9,66 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.States;
 public class DisconnectState : IAppState
 {
     private readonly IFileSystemContext _context;
-    private readonly IEnumerable<IFileSystemFactory> _factories;
 
     public DisconnectState(IFileSystemContext context)
     {
         _context = context;
-        _factories = new List<IFileSystemFactory> { new FileSystemFactory() };
     }
 
-    public ConnectResult Connect(FilePath address, string mode)
+    public CommandResult Connect(FilePath address, string mode)
     {
-        IFileSystemFactory? factory = _factories.FirstOrDefault(f => f.Scheme == mode);
+        IFileSystemFactory? factory = _context.FindFactory(mode);
 
         if (factory is null)
         {
-            return new ConnectResult.Failure();
+            return new CommandResult.Failure("Unsupported mode");
         }
 
         IFileSystem fileSystem = factory.Create(address.Value);
 
         _context.SetFileSystem(fileSystem);
-        _context.TransitionTo(new ConnectState(_context, fileSystem));
+        _context.TransitionTo(new ConnectState(_context));
 
-        return new ConnectResult.Success();
+        return new CommandResult.Success();
     }
 
-    public DisconnectResult Disconnect()
+    public CommandResult Disconnect()
     {
-        return new DisconnectResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public TreeListResult ListDirectory(int depth)
+    public CommandResult ListDirectory(int depth)
     {
-        return new TreeListResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public TreeGoToResult ChangeDirectory(FilePath path)
+    public CommandResult ChangeDirectory(FilePath path)
     {
-        return new TreeGoToResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public ShowResult ShowFile(FilePath path)
+    public CommandResult ShowFile(FilePath path)
     {
-        return new ShowResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public MoveResult MoveFile(FilePath source, FilePath destination)
+    public CommandResult MoveFile(FilePath source, FilePath destination)
     {
-        return new MoveResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public CopyResult CopyFile(FilePath source, FilePath destination)
+    public CommandResult CopyFile(FilePath source, FilePath destination)
     {
-        return new CopyResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public DeleteResult DeleteFile(FilePath path)
+    public CommandResult DeleteFile(FilePath path)
     {
-        return new DeleteResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 
-    public RenameResult RenameFile(FilePath path, string newName)
+    public CommandResult RenameFile(FilePath path, string newName)
     {
-        return new RenameResult.Failure();
+        return new CommandResult.Failure("Not connected");
     }
 }
