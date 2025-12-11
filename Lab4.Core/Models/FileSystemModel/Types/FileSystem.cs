@@ -17,100 +17,100 @@ public class FileSystem : IFileSystem
         _workingDirectory = new FilePath(rootPath);
     }
 
-    public TreeListResult ListDirectory(int depth)
+    public CommandResult ListDirectory(int depth)
     {
         var dirInfo = new DirectoryInfo(_workingDirectory.Value);
 
         if (!dirInfo.Exists)
         {
-            return new TreeListResult.Failure();
+            return new CommandResult.Failure("Directory does not exist");
         }
 
         var scanner = new DirectoryScanner(dirInfo.FullName, depth, 0);
-        return new TreeListResult.Success(new DirectoryNode(dirInfo.Name, scanner));
+        return new CommandResult.Success(new DirectoryNode(dirInfo.Name, scanner));
     }
 
-    public TreeGoToResult ChangeDirectory(FilePath path)
+    public CommandResult ChangeDirectory(FilePath path)
     {
         FilePath targetPath = _navigator.Manage(_workingDirectory, path);
 
-        if (!Directory.Exists(targetPath.Value)) return new TreeGoToResult.Failure();
+        if (!Directory.Exists(targetPath.Value)) return new CommandResult.Failure("Path not found");
         _workingDirectory = targetPath;
-        return new TreeGoToResult.Success();
+        return new CommandResult.Success();
     }
 
-    public CopyResult CopyFile(FilePath source, FilePath destination)
+    public CommandResult CopyFile(FilePath source, FilePath destination)
     {
         string src = GetAbsolutePath(source);
         string dest = GetAbsolutePath(destination);
 
-        if (!File.Exists(src) || File.Exists(dest)) return new CopyResult.Failure();
+        if (!File.Exists(src) || File.Exists(dest)) return new CommandResult.Failure("Invalid source or destination");
         File.Copy(src, dest);
-        return new CopyResult.Success();
+        return new CommandResult.Success();
     }
 
-    public DeleteResult DeleteFile(FilePath path)
+    public CommandResult DeleteFile(FilePath path)
     {
         string target = GetAbsolutePath(path);
 
         if (!File.Exists(target))
         {
-            return new DeleteResult.Failure();
+            return new CommandResult.Failure("File not found");
         }
 
         File.Delete(target);
-        return new DeleteResult.Success();
+        return new CommandResult.Success();
     }
 
-    public MoveResult MoveFile(FilePath source, FilePath destination)
+    public CommandResult MoveFile(FilePath source, FilePath destination)
     {
         string srcPath = GetAbsolutePath(source);
         string destPath = GetAbsolutePath(destination);
 
         if (!File.Exists(srcPath) || File.Exists(destPath))
         {
-            return new MoveResult.Failure();
+            return new CommandResult.Failure("Invalid source or destination");
         }
 
         try
         {
             File.Move(srcPath, destPath);
-            return new MoveResult.Success();
+            return new CommandResult.Success();
         }
         catch
         {
-            return new MoveResult.Failure();
+            return new CommandResult.Failure("Move operation failed");
         }
     }
 
-    public RenameResult RenameFile(FilePath path, string newName)
+    public CommandResult RenameFile(FilePath path, string newName)
     {
         var oldFile = new FileInfo(GetAbsolutePath(path));
 
         if (!oldFile.Exists || oldFile.DirectoryName == null)
         {
-            return new RenameResult.Failure();
+            return new CommandResult.Failure("File not found");
         }
 
         string newFullPath = Path.Combine(oldFile.DirectoryName, newName);
 
         if (File.Exists(newFullPath))
         {
-            return new RenameResult.Failure();
+            return new CommandResult.Failure("Target file already exists");
         }
 
         oldFile.MoveTo(newFullPath);
-        return new RenameResult.Success();
+        return new CommandResult.Success();
     }
 
-    public ShowResult ShowFile(FilePath path)
+    public CommandResult ShowFile(FilePath path)
     {
         string fullPath = GetAbsolutePath(path);
         var fileInfo = new FileInfo(fullPath);
 
         return fileInfo.Exists
-            ? new ShowResult.Success(File.ReadAllText(fileInfo.FullName))
-            : new ShowResult.Failure();
+            ? new CommandResult.Success(File.ReadAllText(fileInfo.FullName))
+            : new CommandResult.Failure("File not found");
     }
 
     private string GetAbsolutePath(FilePath relativePath)

@@ -16,7 +16,7 @@ public class DeleteCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        DeleteResult result = context.DeleteFile(_path);
+        CommandResult result = context.DeleteFile(_path);
         result.Accept(new DeleteDrawer());
     }
 }

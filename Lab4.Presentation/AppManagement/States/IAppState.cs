@@ -5,21 +5,21 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.AppManagement.States;
 
 public interface IAppState
 {
-    ConnectResult Connect(FilePath address, string mode);
+    CommandResult Connect(FilePath address, string mode);
 
-    DisconnectResult Disconnect();
+    CommandResult Disconnect();
 
-    TreeListResult ListDirectory(int depth);
+    CommandResult ListDirectory(int depth);
 
-    TreeGoToResult ChangeDirectory(FilePath path);
+    CommandResult ChangeDirectory(FilePath path);
 
-    ShowResult ShowFile(FilePath path);
+    CommandResult ShowFile(FilePath path);
 
-    MoveResult MoveFile(FilePath source, FilePath destination);
+    CommandResult MoveFile(FilePath source, FilePath destination);
 
-    CopyResult CopyFile(FilePath source, FilePath destination);
+    CommandResult CopyFile(FilePath source, FilePath destination);
 
-    DeleteResult DeleteFile(FilePath path);
+    CommandResult DeleteFile(FilePath path);
 
-    RenameResult RenameFile(FilePath path, string newName);
+    CommandResult RenameFile(FilePath path, string newName);
 }

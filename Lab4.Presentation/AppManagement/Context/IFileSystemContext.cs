@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Models.FileSystemModel.Factories;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Models.FileSystemModel.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Types;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ValueObjects;
@@ -11,21 +12,25 @@ public interface IFileSystemContext
 
     void SetFileSystem(IFileSystem? fileSystem);
 
-    ConnectResult Connect(FilePath address, string mode);
+    IFileSystem? FileSystem { get; }
 
-    DisconnectResult Disconnect();
+    IFileSystemFactory? FindFactory(string scheme);
 
-    TreeListResult ListDirectory(int depth);
+    CommandResult Connect(FilePath address, string mode);
 
-    TreeGoToResult ChangeDirectory(FilePath path);
+    CommandResult Disconnect();
 
-    ShowResult ShowFile(FilePath path);
+    CommandResult ListDirectory(int depth);
 
-    MoveResult MoveFile(FilePath source, FilePath destination);
+    CommandResult ChangeDirectory(FilePath path);
 
-    CopyResult CopyFile(FilePath source, FilePath destination);
+    CommandResult ShowFile(FilePath path);
 
-    DeleteResult DeleteFile(FilePath path);
+    CommandResult MoveFile(FilePath source, FilePath destination);
 
-    RenameResult RenameFile(FilePath path, string newName);
+    CommandResult CopyFile(FilePath source, FilePath destination);
+
+    CommandResult DeleteFile(FilePath path);
+
+    CommandResult RenameFile(FilePath path, string newName);
 }

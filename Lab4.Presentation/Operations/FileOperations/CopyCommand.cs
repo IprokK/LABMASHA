@@ -18,7 +18,7 @@ public class CopyCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        CopyResult result = context.CopyFile(_source, _destination);
+        CommandResult result = context.CopyFile(_source, _destination);
         result.Accept(new CopyDrawer());
     }
 }

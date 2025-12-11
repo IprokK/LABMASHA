@@ -8,7 +8,7 @@ public class DisconnectCommand : ICommand
 {
     public void Execute(IFileSystemContext context)
     {
-        DisconnectResult result = context.Disconnect();
+        CommandResult result = context.Disconnect();
         result.Accept(new DisconnectDrawer());
     }
 }

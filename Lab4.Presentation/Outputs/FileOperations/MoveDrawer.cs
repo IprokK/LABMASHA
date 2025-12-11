@@ -3,15 +3,15 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.Visitors;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.Outputs.FileOperations;
 
-public class MoveDrawer : IMoveResultVisitor
+public class MoveDrawer : ICommandResultVisitor
 {
-    public void Visit(MoveResult.Success result)
+    public void Visit(CommandResult.Success result)
     {
         Console.WriteLine("File moved successfully");
     }
 
-    public void Visit(MoveResult.Failure result)
+    public void Visit(CommandResult.Failure result)
     {
-        Console.WriteLine("Failed to move file");
+        Console.WriteLine(result.Message ?? "Failed to move file");
     }
 }

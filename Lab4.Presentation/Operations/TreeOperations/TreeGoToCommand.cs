@@ -16,7 +16,7 @@ public class TreeGoToCommand : ICommand
 
     public void Execute(IFileSystemContext context)
     {
-        TreeGoToResult result = context.ChangeDirectory(_path);
+        CommandResult result = context.ChangeDirectory(_path);
         result.Accept(new TreeGoToDrawer());
     }
 }
